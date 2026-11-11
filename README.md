@@ -39,7 +39,7 @@ Deploy the `dist/` output from `npm run build`. The included `vercel.json` confi
 
 ## SEO
 
-Public pages are rendered to HTML during the build and hydrated in the browser. Page metadata and structured data live in `src/lib/seo.ts`. Public event data is captured during the build and refreshed by the browser; rebuild after changing event records to refresh the static snapshot.
+Public pages are rendered to HTML during the build and hydrated in the browser. Page metadata and structured data live in `src/lib/seo.ts`.
 
 Validate a production build:
 
@@ -48,3 +48,7 @@ npm run check:seo
 ```
 
 See [the SEO audit and maintenance guide](docs/SEO.md) for findings, build requirements, deployment checks, and search registration steps.
+
+## Content
+
+The site is fully static, with no backend. Projects live in `src/lib/projects.ts` and events in `src/lib/events.ts`. To add an event, put its certificate preview and PDF in `public/certificates/`, add a record to `events.ts`, and redeploy.

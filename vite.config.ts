@@ -29,10 +29,6 @@ export default defineConfig({
             return 'vendor-motion';
           }
 
-          if (moduleId.includes('/node_modules/@supabase/')) {
-            return 'vendor-supabase';
-          }
-
           return 'vendor';
         },
       },

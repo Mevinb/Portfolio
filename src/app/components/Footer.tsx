@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Check, FilmSlate, Copy, DownloadSimple, GithubLogo, LinkedinLogo, EnvelopeSimple, MapPin, PaperPlaneTilt } from './icons';
-import { getPublicAssetUrl } from '../../lib/supabase';
 
 const EMAIL = 'mevinbenty507@gmail.com';
-const RESUME_URL = getPublicAssetUrl('resume/Mevin_Benty_Resume.pdf');
+const RESUME_URL = '/resume/Mevin_Benty_Resume.pdf';
 
 const FIELD = 'mt-2 block w-full border border-white/20 bg-white/[0.04] px-4 font-sans text-sm normal-case tracking-normal text-white placeholder:text-white/35 transition-colors focus:border-[var(--highlight)] focus:outline-none';
 const CHANNEL = 'flex items-center gap-3 bg-[var(--contact-card)] p-5 transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_var(--shadow-tint)]';

@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, CalendarBlank, GitBranch, MapPin } from './icons';
 import { Link } from 'react-router';
-import { fetchEvents, getCachedEvents, prefetchEvents } from '../../lib/events';
-import type { Event } from '../../lib/supabase';
+import { EVENTS } from '../../lib/events';
 
 const MILESTONES = [
   { year: '2026', title: 'Story Teller multi-agent engine', type: 'Build', text: 'Designed a long-form generation workflow with semantic memory and multiple model backends.', url: 'https://github.com/Mevinb/story-teller-' },
@@ -10,25 +8,9 @@ const MILESTONES = [
   { year: '2025', title: 'MediaHub desktop app', type: 'Build', text: 'Shipped a GPU-accelerated media library with AI face recognition, libmpv playback, and SQLite FTS5 search.', url: 'https://github.com/Mevinb/mediaplayer' },
 ];
 
+const RECENT = EVENTS.slice(0, 3);
+
 export function Events() {
-  const initialEvents = useRef(getCachedEvents());
-  const [events, setEvents] = useState<Event[]>(initialEvents.current?.slice(0, 3) ?? []);
-  const [loading, setLoading] = useState(!initialEvents.current);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchEvents(Boolean(initialEvents.current));
-        setEvents(data.slice(0, 3));
-      } catch {
-        // Keep build-time records and field notes available when the API is offline.
-      } finally {
-        setLoading(false);
-      }
-    };
-    void load();
-  }, []);
-
   return (
     <section id="notes" className="scroll-mt-[72px] border-b border-[var(--line)] bg-[var(--paper)]">
       <div className="mx-auto grid max-w-[1440px] lg:grid-cols-[0.7fr_1.3fr]">
@@ -47,9 +29,9 @@ export function Events() {
               <a href={item.url} target="_blank" rel="noreferrer" aria-label={`Open ${item.title}`} className="text-[var(--accent)]"><ArrowUpRight size={18} className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" /></a>
             </article>
           ))}
-          {(loading || events.length > 0) && <div className="p-6 md:p-8">
-            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center"><div><h3 className="text-lg font-semibold">Recent public activity</h3><span className="label-mono mt-1 block text-[var(--ink-faint)]">Latest from the event archive</span></div><Link to="/events" viewTransition onMouseEnter={prefetchEvents} onFocus={prefetchEvents} className="group inline-flex w-fit items-center gap-2 border border-[var(--line-strong)] px-4 py-2.5 text-xs font-semibold text-[var(--ink)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-ink)]">View all events <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link></div>
-            {loading ? <div className="grid gap-px border border-[var(--line)] bg-[var(--line)] md:grid-cols-3" aria-busy="true" aria-label="Loading recent events">{[0, 1, 2].map((item) => <div key={item} className="space-y-4 bg-[var(--card)] p-5"><div className="skeleton h-3 w-20" /><div className="skeleton h-5 w-4/5" /><div className="skeleton h-3 w-1/2" /></div>)}</div> : <div className="grid gap-px border border-[var(--line)] bg-[var(--line)] md:grid-cols-3">{events.map((event) => <article key={event.id} className="bg-[var(--card)] p-5"><span className="label-mono text-[var(--accent)]">{event.role}</span><h4 className="mt-4 font-semibold">{event.title}</h4><div className="mt-5 space-y-2 text-xs text-[var(--ink-faint)]"><span className="flex items-center gap-2"><CalendarBlank size={13} />{new Date(event.event_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>{event.location && <span className="flex items-center gap-2"><MapPin size={13} />{event.location}</span>}</div></article>)}</div>}
+          {RECENT.length > 0 && <div className="p-6 md:p-8">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center"><div><h3 className="text-lg font-semibold">Recent public activity</h3><span className="label-mono mt-1 block text-[var(--ink-faint)]">Latest from the event archive</span></div><Link to="/events" viewTransition className="group inline-flex w-fit items-center gap-2 border border-[var(--line-strong)] px-4 py-2.5 text-xs font-semibold text-[var(--ink)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-ink)]">View all events <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link></div>
+            <div className="grid gap-px border border-[var(--line)] bg-[var(--line)] md:grid-cols-3">{RECENT.map((event) => <article key={event.id} className="bg-[var(--card)] p-5"><span className="label-mono text-[var(--accent)]">{event.role}</span><h4 className="mt-4 font-semibold">{event.title}</h4><div className="mt-5 space-y-2 text-xs text-[var(--ink-faint)]"><span className="flex items-center gap-2"><CalendarBlank size={13} />{new Date(`${event.event_date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>{event.location && <span className="flex items-center gap-2"><MapPin size={13} />{event.location}</span>}</div></article>)}</div>
           </div>}
         </div>
       </div>

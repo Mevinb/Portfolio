@@ -27,7 +27,7 @@ export function getSeo(pathname: string) {
   };
   const page = pages[path];
   const url = `${SITE_URL}${path}`;
-  const title = page?.title ?? (path.startsWith('/admin') ? 'Admin | Mevin Benty' : 'Page Not Found | Mevin Benty');
+  const title = page?.title ?? 'Page Not Found | Mevin Benty';
   const description = page?.description ?? 'Return to Mevin Benty’s portfolio to explore projects and public activities.';
   const graph: Record<string, unknown>[] = page ? [
     {

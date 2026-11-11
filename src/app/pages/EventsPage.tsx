@@ -1,9 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  AnimatePresence,
-  motion,
-  MotionConfig,
-} from 'motion/react';
+import { useEffect } from 'react';
+import { motion, MotionConfig } from 'motion/react';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -15,8 +11,7 @@ import {
 import { ThemeProvider } from '../context/ThemeContext';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
-import { fetchEvents, getCachedEvents } from '../../lib/events';
-import type { Event } from '../../lib/supabase';
+import { EVENTS, type Event } from '../../lib/events';
 
 function formatEventDate(date: string) {
   return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
@@ -109,36 +104,10 @@ function EventCard({ event, index }: { event: Event; index: number }) {
   );
 }
 
+const CERTIFICATE_COUNT = EVENTS.filter((event) => event.certificate_url).length;
+
 function EventsArchive() {
-  const initialEvents = useRef(getCachedEvents());
-  const [events, setEvents] = useState<Event[]>(initialEvents.current ?? []);
-  const [loading, setLoading] = useState(!initialEvents.current);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const data = await fetchEvents(Boolean(initialEvents.current));
-        if (!cancelled) {
-          setEvents(data);
-          setError('');
-        }
-      } catch {
-        if (!cancelled && !initialEvents.current?.length) setError('The event archive could not be loaded.');
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-    void load();
-    return () => { cancelled = true; };
-  }, []);
-
-  const certificateCount = useMemo(
-    () => events.filter((event) => Boolean(event.certificate_url)).length,
-    [events],
-  );
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -195,13 +164,9 @@ function EventsArchive() {
             </motion.div>
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }} className="label-mono relative z-10 opacity-70">Archive status</motion.span>
             <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58, duration: 0.65, ease: [0.22, 1, 0.36, 1] }} className="relative z-10 grid grid-cols-2 gap-px border border-current/35 bg-current/35">
-              {[['Event records', events.length], ['Certificates', certificateCount]].map(([label, value]) => (
+              {[['Event records', EVENTS.length], ['Certificates', CERTIFICATE_COUNT]].map(([label, value]) => (
                 <motion.div key={label} whileHover={{ backgroundColor: 'rgba(255,255,255,0.12)' }} className="bg-[var(--accent)] p-5">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.span key={loading ? 'loading' : String(value)} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="block font-mono text-4xl font-semibold">
-                      {loading ? '—' : value}
-                    </motion.span>
-                  </AnimatePresence>
+                  <span className="block font-mono text-4xl font-semibold">{value}</span>
                   <span className="label-mono mt-2 block opacity-70">{label}</span>
                 </motion.div>
               ))}
@@ -213,27 +178,10 @@ function EventsArchive() {
       <section className="bg-[var(--paper)]">
         <div className="mx-auto max-w-[1440px] border-x border-[var(--line)]">
           <div className="flex flex-col justify-between gap-4 border-b border-[var(--line)] bg-[var(--paper-strong)] px-5 py-7 sm:flex-row sm:items-center md:px-8">
-            <div><p className="label-mono text-[var(--accent)]">Chronological ledger</p><p className="mt-2 text-sm text-[var(--ink-soft)]">Newest activity first. Certificates open from Supabase storage.</p></div>
-            <span className="label-mono text-[var(--ink-faint)]">{loading ? 'Syncing records' : `${events.length} total entries`}</span>
+            <div><p className="label-mono text-[var(--accent)]">Chronological ledger</p><p className="mt-2 text-sm text-[var(--ink-soft)]">Newest activity first. Each record links to its certificate.</p></div>
+            <span className="label-mono text-[var(--ink-faint)]">{EVENTS.length} total entries</span>
           </div>
-
-          <AnimatePresence mode="wait" initial={false}>
-            {loading && (
-              <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-px bg-[var(--line)]">
-                {[0, 1, 2].map((item) => (
-                  <div key={item} className="relative grid min-h-64 overflow-hidden bg-[var(--card)] md:grid-cols-[112px_220px_1fr]">
-                    <div className="border-r border-[var(--line)] bg-[var(--paper-strong)]" />
-                    <div className="border-r border-[var(--line)] bg-[var(--paper-strong)] p-4"><div className="h-full min-h-44 border border-[var(--line)] bg-[var(--card)]" /></div>
-                    <div className="space-y-5 p-7"><div className="h-3 w-24 bg-[var(--paper-strong)]" /><div className="h-8 w-3/4 bg-[var(--paper-strong)]" /><div className="h-3 w-full bg-[var(--paper-strong)]" /><div className="h-3 w-2/3 bg-[var(--paper-strong)]" /></div>
-                    <motion.div animate={{ x: ['-100%', '250%'] }} transition={{ duration: 1.35, delay: item * 0.12, repeat: Infinity, ease: 'linear' }} className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/45 to-transparent dark:via-white/5" />
-                  </div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-          {!loading && error && <div className="p-10 text-sm text-[var(--signal)]">{error}</div>}
-          {!loading && !error && events.length === 0 && <div className="p-10 text-sm text-[var(--ink-soft)]">No event records have been published yet.</div>}
-          {!loading && !error && events.map((event, index) => <EventCard key={event.id} event={event} index={index} />)}
+          {EVENTS.map((event, index) => <EventCard key={event.id} event={event} index={index} />)}
         </div>
       </section>
     </main>

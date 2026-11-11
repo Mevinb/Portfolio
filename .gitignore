@@ -37,3 +37,7 @@ Thumbs.db
 
 # Temporary server bundle used only during static generation
 .prerender/
+
+# Database and storage exports: these contain account data and must never be committed
+*.backup.gz
+*.storage.zip

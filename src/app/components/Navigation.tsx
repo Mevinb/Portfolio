@@ -3,7 +3,6 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/
 import { ArrowUpRight, List, Moon, Sun, X } from './icons';
 import { Link, useLocation } from 'react-router';
 import { useTheme } from '../context/ThemeContext';
-import { prefetchEvents } from '../../lib/events';
 
 // `route` items are pages; the rest are sections of the home page.
 const NAV_ITEMS = [
@@ -20,8 +19,7 @@ type NavItem = (typeof NAV_ITEMS)[number];
 /** Pages navigate in-app with a view transition; sections are plain anchors. */
 function NavLink({ item, className, onClick, children }: { item: NavItem; className: string; onClick?: () => void; children: React.ReactNode }) {
   if (!item.route) return <a href={item.href} className={className} onClick={onClick}>{children}</a>;
-  const prefetch = item.id === 'events' ? prefetchEvents : undefined;
-  return <Link to={item.href} viewTransition className={className} onClick={onClick} onMouseEnter={prefetch} onFocus={prefetch}>{children}</Link>;
+  return <Link to={item.href} viewTransition className={className} onClick={onClick}>{children}</Link>;
 }
 
 export function Navigation() {

@@ -17,9 +17,7 @@ function PageSkeleton() {
   </div>;
 }
 
-export function SiteRoutes({ EventsPage, ProjectsPage, AdminEvents }: {
-  EventsPage: ComponentType; ProjectsPage: ComponentType; AdminEvents: ComponentType;
-}) {
+export function SiteRoutes({ EventsPage, ProjectsPage }: { EventsPage: ComponentType; ProjectsPage: ComponentType }) {
   return <>
     <Seo />
     <Suspense fallback={<PageSkeleton />}>
@@ -27,8 +25,6 @@ export function SiteRoutes({ EventsPage, ProjectsPage, AdminEvents }: {
         <Route path="/" element={<App />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/admin" element={<AdminEvents />} />
-        <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

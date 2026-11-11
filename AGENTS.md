@@ -1,6 +1,6 @@
 # Working in this repo
 
-Portfolio site for Mevin Benty: React 19, Vite, Tailwind v4, Motion, three.js (intro only). Public routes are prerendered at build time and hydrated.
+Portfolio site for Mevin Benty: React 19, Vite, Tailwind v4, Motion, three.js (intro only). Fully static: there is no backend or database. Public routes are prerendered at build time and hydrated.
 
 ## Verify a change
 
@@ -10,7 +10,8 @@ npm run build       # client build, SSR build, then scripts/prerender.mjs
 npm run check:seo   # asserts on the prerendered dist/ output
 ```
 
-- `npm run build` fetches public events from Supabase and fails closed if the request fails. To build without it (empty event archive), run `VITE_SUPABASE_URL= npm run build`.
+- The build needs no environment variables or network access.
+- Events live in `src/lib/events.ts`; their certificate previews and PDFs are in `public/certificates/`, the résumé in `public/resume/`.
 - `check:seo` requires exactly one `<h1>` per public page, and on `/projects` one `<article>` per project whose `id` matches the project id.
 
 ## Conventions
