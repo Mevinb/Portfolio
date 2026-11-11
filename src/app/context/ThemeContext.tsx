@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { withViewTransition } from '../../lib/viewTransition';
 
 type Theme = 'dark' | 'light';
 
@@ -6,6 +7,11 @@ interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
+}
+
+function applyThemeClass(theme: Theme) {
+  document.documentElement.classList.toggle('light', theme === 'light');
+  document.documentElement.classList.toggle('dark', theme === 'dark');
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -24,13 +30,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!preferencesLoaded) return;
-    document.documentElement.classList.toggle('light', theme === 'light');
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    applyThemeClass(theme);
     try { localStorage.setItem('portfolio_theme', theme); } catch { /* Storage is optional. */ }
   }, [theme, preferencesLoaded]);
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    const next = theme === 'dark' ? 'light' : 'dark';
+    // The class is applied inside the transition so the new snapshot is already themed.
+    withViewTransition(() => { applyThemeClass(next); setThemeState(next); });
   };
 
   const setTheme = (newTheme: Theme) => {

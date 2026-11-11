@@ -32,6 +32,12 @@
   --contact-line: rgba(16, 18, 22, 0.24);
   --contact-card: #ffffff;
   --form-panel: #101216;
+  --form-card: #151923;
+  --form-shadow: rgba(21, 87, 255, 0.55);
+  --contact-label: #8d2c23;
+  --contact-faint: #6e7480;
+  --contact-accent: #1557ff;
+  --shadow-tint: rgba(10, 18, 40, 0.12);
   --background: var(--paper);
   --foreground: var(--ink);
   --card: #ffffff;
@@ -40,7 +46,7 @@
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
   --input: rgba(22, 24, 23, 0.1);
-  --ring: rgba(37, 93, 40, 0.4);
+  --ring: var(--accent);
   --radius: 0.25rem;
 }
 
@@ -72,6 +78,9 @@
   --contact-line: rgba(16, 18, 22, 0.25);
   --contact-card: #ffffff;
   --form-panel: #07090d;
+  --form-card: #10141d;
+  --form-shadow: rgba(107, 147, 255, 0.4);
+  --shadow-tint: rgba(0, 0, 0, 0.45);
   --background: var(--paper);
   --foreground: var(--ink);
   --card: #131822;
@@ -80,7 +89,7 @@
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
   --input: rgba(241, 238, 230, 0.11);
-  --ring: rgba(169, 217, 91, 0.4);
+  --ring: var(--accent);
 }
 
 @theme inline {
@@ -100,12 +109,19 @@
 }
 
 @layer base {
-  * { @apply border-border outline-ring/50; }
-  html { font-size: var(--font-size); scroll-behavior: smooth; }
+  * { @apply border-border; }
+  html { font-size: var(--font-size); scroll-behavior: smooth; color-scheme: light; }
+  html.dark { color-scheme: dark; }
   body { @apply bg-background text-foreground; font-family: var(--sans); }
   h1, h2, h3, h4, p { margin: 0; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p { text-wrap: pretty; }
   button, a, input, textarea { font: inherit; }
+  button { cursor: pointer; }
   ::selection { background: var(--accent); color: var(--accent-ink); }
+  /* One focus treatment everywhere; --focus lets dark or coloured panels override it. */
+  :focus-visible { outline: 2px solid var(--focus, var(--accent)); outline-offset: 3px; }
+  #main-content:focus { outline: none; }
 }
 
 .nav-brand,
@@ -163,16 +179,6 @@
   background-size: 28px 28px;
 }
 
-.project-card {
-  transform-origin: center;
-  will-change: transform;
-}
-
-.capability-card:nth-child(1) { box-shadow: inset 0 5px 0 var(--accent); }
-.capability-card:nth-child(2) { box-shadow: inset 0 5px 0 var(--signal); }
-.capability-card:nth-child(3) { box-shadow: inset 0 5px 0 var(--highlight); }
-.capability-card:nth-child(4) { box-shadow: inset 0 5px 0 var(--accent-bright); }
-
 @media (max-width: 640px) {
   .site-shell::before,
   .site-shell::after {
@@ -189,3 +195,136 @@
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Panels whose background is not --paper need a focus ring that reads on them. */
+.on-dark { --focus: var(--highlight); }
+.on-accent { --focus: #ffffff; }
+.on-highlight { --focus: var(--contact-ink); }
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 200;
+  translate: 0 -200%;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.skip-link:focus { translate: 0 0; }
+
+/* ── Scroll-driven motion ────────────────────────────────────────────────────
+   Entrances and parallax run on the compositor from scroll position, with no
+   JS and nothing hidden in the prerendered HTML. Browsers without
+   animation-timeline simply show the content in place. */
+@keyframes reveal-up { from { opacity: 0; translate: 0 32px; } }
+@keyframes reveal-side { from { opacity: 0; translate: -24px 0; } }
+@keyframes grow-x { from { scale: 0 1; } }
+@keyframes hero-copy-drift { to { translate: 0 80px; } }
+@keyframes hero-art-drift { to { translate: 0 -54px; } }
+@keyframes hero-shape-turn { from { rotate: 12deg; } to { rotate: 48deg; } }
+@keyframes draw-line { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.page-progress { display: none; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-side {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    .reveal-side { animation-name: reveal-side; }
+
+    .draw-on-scroll {
+      stroke-dasharray: 1;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+
+    .hero-drift,
+    .hero-art-drift,
+    .hero-shape-turn {
+      animation: hero-copy-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .hero-art-drift { animation-name: hero-art-drift; }
+    .hero-shape-turn { animation-name: hero-shape-turn; }
+  }
+
+  .page-progress {
+    display: block;
+    transform-origin: left;
+    animation: grow-x linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+/* ── View transitions ────────────────────────────────────────────────────────
+   Same-document navigations opt in through React Router's viewTransition
+   links; full page loads between the prerendered routes use the rule below. */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  ::view-transition-group(dossier) {
+    animation-duration: 420ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* The card and the dialog have different aspect ratios; crossfade the two
+     snapshots at full size instead of letting each one stretch. */
+  ::view-transition-old(dossier),
+  ::view-transition-new(dossier) {
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+.site-header { view-transition-name: site-header; }
+
+/* ── Native dialog ───────────────────────────────────────────────────────── */
+.dossier {
+  view-transition-name: dossier;
+  margin: auto;
+  width: min(100% - 2rem, 64rem);
+  max-height: min(90dvh, 60rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+}
+.dossier::backdrop { background: rgba(4, 7, 14, 0.68); }
+html:has(dialog[open]) { overflow: hidden; }
+
+/* ── Loading skeleton ────────────────────────────────────────────────────── */
+@keyframes skeleton-sweep { to { background-position: -200% 0; } }
+.skeleton {
+  background: linear-gradient(90deg, var(--paper-strong) 25%, color-mix(in srgb, var(--paper-strong) 55%, var(--paper)) 50%, var(--paper-strong) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s linear infinite;
+}
+
+/* ── Hero portrait: real 3D depth, tilted by the pointer ─────────────────── */
+.tilt-stage { perspective: 1100px; }
+.tilt-body { transform-style: preserve-3d; }
+.tilt-layer-back { transform: translate3d(18px, 18px, -60px); }
+.tilt-layer-front { transform: translateZ(48px); }
+.tilt-layer-float { transform: translateZ(90px); }

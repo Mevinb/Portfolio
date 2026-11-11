@@ -193,8 +193,8 @@ function EventsArchive() {
               <div className="mx-5 mt-4 h-px w-2/3 bg-white/35" />
               <Medal className="absolute bottom-5 right-5 text-[var(--highlight)]" size={42} />
             </motion.div>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }} className="label-mono relative z-10 text-white/70">Archive status</motion.span>
-            <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58, duration: 0.65, ease: [0.22, 1, 0.36, 1] }} className="relative z-10 grid grid-cols-2 gap-px border border-white/35 bg-white/35">
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }} className="label-mono relative z-10 opacity-70">Archive status</motion.span>
+            <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58, duration: 0.65, ease: [0.22, 1, 0.36, 1] }} className="relative z-10 grid grid-cols-2 gap-px border border-current/35 bg-current/35">
               {[['Event records', events.length], ['Certificates', certificateCount]].map(([label, value]) => (
                 <motion.div key={label} whileHover={{ backgroundColor: 'rgba(255,255,255,0.12)' }} className="bg-[var(--accent)] p-5">
                   <AnimatePresence mode="wait" initial={false}>
@@ -202,7 +202,7 @@ function EventsArchive() {
                       {loading ? '—' : value}
                     </motion.span>
                   </AnimatePresence>
-                  <span className="label-mono mt-2 block text-white/65">{label}</span>
+                  <span className="label-mono mt-2 block opacity-70">{label}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -244,7 +244,7 @@ export default function EventsPage() {
   return (
     <ThemeProvider>
       <MotionConfig reducedMotion="user">
-        <div className="site-shell min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
+        <div className="site-shell min-h-dvh bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
           <Navigation />
           <EventsArchive />
           <Footer />

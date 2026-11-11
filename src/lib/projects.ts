@@ -1,4 +1,4 @@
-import type { ProjectArchitecture } from '../app/components/ArchitectureModal';
+import type { ProjectArchitecture } from '../app/components/Blueprint';
 
 export type ProjectCategory = 'AI vision' | 'AI systems' | 'Security' | 'Web systems';
 
