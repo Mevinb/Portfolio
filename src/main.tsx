@@ -1,36 +1,28 @@
-import { createRoot } from 'react-dom/client';
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router';
-import App from './app/App.tsx';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { lazy } from 'react';
+import { BrowserRouter } from 'react-router';
+import { SiteRoutes } from './app/SiteRoutes';
+import { seedEvents } from './lib/events';
 import './styles/index.css';
 
-const AdminEvents = lazy(() => import('./app/pages/AdminEvents.tsx'));
-const EventsPage = lazy(() => import('./app/pages/EventsPage.tsx'));
-const ProjectsPage = lazy(() => import('./app/pages/ProjectsPage.tsx'));
+const loaders = {
+  EventsPage: () => import('./app/pages/EventsPage'),
+  ProjectsPage: () => import('./app/pages/ProjectsPage'),
+  AdminEvents: () => import('./app/pages/AdminEvents'),
+};
 
-function RouteFallback() {
-  return (
-    <div className="grid min-h-screen place-items-center bg-[var(--paper)] text-[var(--ink)]">
-      <div className="w-48">
-        <span className="label-mono text-[var(--accent)]">Loading archive</span>
-        <div className="mt-4 h-[3px] overflow-hidden bg-[var(--line)]">
-          <div className="h-full w-2/3 animate-pulse bg-[var(--accent)]" />
-        </div>
-      </div>
-    </div>
-  );
+async function start() {
+  const snapshot = document.getElementById('initial-events');
+  if (snapshot) seedEvents(JSON.parse(snapshot.textContent || '[]'));
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  // Resolve the initial route before hydration so it matches the static HTML.
+  const EventsPage = path === '/events' ? (await loaders.EventsPage()).default : lazy(loaders.EventsPage);
+  const ProjectsPage = path === '/projects' ? (await loaders.ProjectsPage()).default : lazy(loaders.ProjectsPage);
+  const AdminEvents = path.startsWith('/admin') ? (await loaders.AdminEvents()).default : lazy(loaders.AdminEvents);
+  const app = <BrowserRouter><SiteRoutes EventsPage={EventsPage} ProjectsPage={ProjectsPage} AdminEvents={AdminEvents} /></BrowserRouter>;
+  const root = document.getElementById('root')!;
+  if (root.dataset.prerendered === 'true') hydrateRoot(root, app);
+  else createRoot(root).render(app);
 }
 
-createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <Suspense fallback={<RouteFallback />}>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/admin" element={<AdminEvents />} />
-        <Route path="/admin/events" element={<AdminEvents />} />
-      </Routes>
-    </Suspense>
-  </BrowserRouter>,
-);
+void start();

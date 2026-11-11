@@ -1,4 +1,4 @@
-import { cubicBezier, motion, MotionValue, useTransform } from 'motion/react';
+import { cubicBezier, motion, type MotionStyle, MotionValue, useTransform } from 'motion/react';
 import { ACTS, CinematicAct, COPY_FADE, FINALE, PROLOGUE, copyStops } from './cinematicTimeline';
 
 /** The site's motion signature, reused here so the intro matches the sections. */
@@ -21,7 +21,7 @@ function ActCopy({ act, progress }: { act: CinematicAct; progress: MotionValue<n
 
   return (
     <motion.div
-      style={{ opacity, scale, y: exitY, '--act-accent': act.accent }}
+      style={{ opacity, scale, y: exitY, '--act-accent': act.accent } as MotionStyle & { '--act-accent': string }}
       className="cinematic-scene-copy"
       aria-hidden="true"
     >

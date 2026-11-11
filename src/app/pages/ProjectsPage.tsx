@@ -16,6 +16,8 @@ function CategoryIcon({ category }: { category: ProjectCategory }) {
 function ProjectCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
   return (
     <motion.article
+      id={project.id}
+      style={{ scrollMarginTop: 96 }}
       layout
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
@@ -56,7 +58,7 @@ export default function ProjectsPage() {
                 <motion.a href="/#work" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} className="label-mono inline-flex items-center gap-2 text-[var(--ink-faint)] hover:text-[var(--accent)]"><ArrowLeft size={13} /> Back to selected work</motion.a>
                 <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="label-mono mt-12 text-[var(--accent)]">Projects / working archive</motion.p>
                 <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.92] tracking-[-0.065em] md:text-7xl lg:text-8xl">Systems built to be used.</h1>
-                <p className="mt-8 max-w-xl text-base leading-relaxed text-[var(--ink-soft)] md:text-lg">A broader record of experiments, tools, products, and infrastructure across AI, security, and web systems.</p>
+                <p className="mt-8 max-w-xl text-base leading-relaxed text-[var(--ink-soft)] md:text-lg">Explore Mevin Benty’s open-source projects in computer vision, local AI, cybersecurity, and full-stack web development. Each project includes its purpose, technology stack, and source code.</p>
               </div>
               <div className="flex min-h-[330px] flex-col justify-between overflow-hidden bg-[var(--accent)] p-6 text-[var(--accent-ink)] md:p-10">
                 <span className="label-mono text-white/70">Archive status</span>

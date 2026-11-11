@@ -7,7 +7,7 @@ import {
   useSpring,
 } from 'motion/react';
 import { ArrowUpRight, Menu, Moon, Sun, X } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useTheme } from '../context/ThemeContext';
 import { prefetchEvents } from '../../lib/events';
 
@@ -22,8 +22,9 @@ const NAV_ITEMS = [
 
 export function Navigation() {
   const { theme, toggleTheme } = useTheme();
-  const isEventsPage = window.location.pathname === '/events';
-  const isProjectsPage = window.location.pathname === '/projects';
+  const { pathname } = useLocation();
+  const isEventsPage = pathname === '/events';
+  const isProjectsPage = pathname === '/projects';
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState(isEventsPage ? 'events' : isProjectsPage ? 'projects' : '');
   const [isScrolled, setIsScrolled] = useState(false);

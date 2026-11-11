@@ -21,23 +21,22 @@ export default function App() {
   return (
     <ThemeProvider>
       <MotionConfig reducedMotion="user">
-        {isActive ? (
+        {isActive && (
           <Suspense fallback={<div style={{ position: 'fixed', inset: 0, zIndex: 100, background: '#050711' }} />}>
             <CinematicLanding key={replayKey} onComplete={complete} />
           </Suspense>
-        ) : (
-          <div className="site-shell min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
-            <Navigation />
-            <main id="main-content" tabIndex={-1}>
-              <Hero />
-              <TechTicker />
-              <About />
-              <Projects />
-              <Events />
-            </main>
-            <Footer onReplayIntro={replay} />
-          </div>
         )}
+        <div {...(isActive ? { inert: '' } as Record<string, string> : {})} className="site-shell min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
+          <Navigation />
+          <main id="main-content" tabIndex={-1}>
+            <Hero />
+            <TechTicker />
+            <About />
+            <Projects />
+            <Events />
+          </main>
+          <Footer onReplayIntro={replay} />
+        </div>
       </MotionConfig>
     </ThemeProvider>
   );

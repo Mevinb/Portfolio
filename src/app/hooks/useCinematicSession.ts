@@ -32,9 +32,12 @@ function shouldPlayCinematic() {
 }
 
 export function useCinematicSession() {
-  const [isActive, setIsActive] = useState(shouldPlayCinematic);
+  const [isActive, setIsActive] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
   const focusTimer = useRef(0);
+
+  // Match the prerendered page on first render; the intro is an enhancement.
+  useEffect(() => { setIsActive(shouldPlayCinematic()); }, []);
 
   useEffect(() => () => { if (focusTimer.current) window.clearTimeout(focusTimer.current); }, []);
 

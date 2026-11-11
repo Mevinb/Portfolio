@@ -5,6 +5,9 @@ const SESSION_CACHE_KEY = 'portfolio_events_cache_v1';
 let memoryCache: Event[] | null = null;
 let inFlight: Promise<Event[]> | null = null;
 
+// The same public snapshot is used by the static page and its first client render.
+export function seedEvents(events: Event[]) { memoryCache = events; }
+
 function readSessionCache() {
   if (memoryCache) return memoryCache;
   try {

@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin
 
-Sitemap: https://mevin.tech/sitemap.xml
+Sitemap: https://www.mevin.tech/sitemap.xml

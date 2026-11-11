@@ -49,7 +49,7 @@ export function Hero() {
 
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="mt-16 grid gap-8 md:grid-cols-[minmax(0,560px)_auto] md:items-end md:justify-between">
             <div>
-              <p className="max-w-xl text-lg leading-relaxed text-[var(--ink-soft)] md:text-xl">Software developer and engineering student working across generative imaging, secure backend systems, and Linux GPU automation.</p>
+              <p className="max-w-xl text-lg leading-relaxed text-[var(--ink-soft)] md:text-xl">I’m Mevin Benty, a software developer and engineering student in Thrissur, Kerala. I build generative imaging pipelines, secure backend systems, and Linux GPU automation.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <motion.a href="#work" whileHover="hover" whileTap={{ scale: 0.97 }} className="shine-button group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--accent-ink)]">
                   <span className="relative z-10">View selected work</span><motion.span variants={{ hover: { x: 3, y: 3 } }} className="relative z-10"><ArrowDownRight size={16} /></motion.span>
@@ -86,7 +86,7 @@ export function Hero() {
                 alt="Mevin Benty"
                 width={706}
                 height={882}
-                fetchPriority="high"
+                {...{ fetchpriority: 'high' }}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
               />

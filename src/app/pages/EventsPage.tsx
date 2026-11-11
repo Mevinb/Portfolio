@@ -173,7 +173,7 @@ function EventsArchive() {
               ))}
             </h1>
             <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }} className="mt-8 max-w-xl text-base leading-relaxed text-[var(--ink-soft)] md:text-lg">
-              Conferences, workshops, certifications, and community work—documented as a chronological verification ledger.
+              Mevin Benty’s conferences, workshops, certifications, and community activities, with dates, roles, and supporting certificates where available.
             </motion.p>
           </div>
 

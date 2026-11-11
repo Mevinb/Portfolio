@@ -21,6 +21,8 @@ export function Events() {
       try {
         const data = await fetchEvents(Boolean(initialEvents.current));
         setEvents(data.slice(0, 3));
+      } catch {
+        // Keep build-time records and field notes available when the API is offline.
       } finally {
         setLoading(false);
       }
