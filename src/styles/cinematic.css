@@ -83,7 +83,7 @@
 .cinematic-scroll-cue,
 .cinematic-skip,
 .cinematic-brand {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   text-transform: uppercase;
   letter-spacing: 0.18em;
 }
@@ -187,7 +187,7 @@
   max-width: 680px;
   margin-top: 1.5rem;
   color: var(--ink-soft);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 0.68rem;
   line-height: 1.7;
   letter-spacing: 0.14em;

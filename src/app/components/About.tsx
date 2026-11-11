@@ -1,9 +1,9 @@
 import { motion } from 'motion/react';
-import { BrainCircuit, Code2, ShieldCheck, Wrench } from 'lucide-react';
+import { Brain, Code, ShieldCheck, Wrench } from './icons';
 
 const CAPABILITIES = [
-  { number: '01', code: 'MODEL', title: 'AI vision systems', text: 'Stable Diffusion, ComfyUI node graphs, LoRA experiments, and identity-preserving pipelines.', icon: BrainCircuit, tags: ['ComfyUI', 'PyTorch', 'OpenCV', 'InsightFace'] },
-  { number: '02', code: 'API', title: 'Backend execution', text: 'FastAPI and Flask services for streaming workflows, long-running jobs, and structured automation.', icon: Code2, tags: ['FastAPI', 'Flask', 'Node.js', 'Postgres'] },
+  { number: '01', code: 'MODEL', title: 'AI vision systems', text: 'Stable Diffusion, ComfyUI node graphs, LoRA experiments, and identity-preserving pipelines.', icon: Brain, tags: ['ComfyUI', 'PyTorch', 'OpenCV', 'InsightFace'] },
+  { number: '02', code: 'API', title: 'Backend execution', text: 'FastAPI and Flask services for streaming workflows, long-running jobs, and structured automation.', icon: Code, tags: ['FastAPI', 'Flask', 'Node.js', 'Postgres'] },
   { number: '03', code: 'AUDIT', title: 'Security utilities', text: 'Network scanners, Windows audit scripts, local reconnaissance helpers, and reportable findings.', icon: ShieldCheck, tags: ['PowerShell', 'Python', 'Sockets', 'Scapy'] },
   { number: '04', code: 'OPS', title: 'Deployment tooling', text: 'Linux GPU setup, dependency scripts, PyInstaller packaging, and reproducible project environments.', icon: Wrench, tags: ['Linux', 'Docker', 'CUDA', 'Git'] },
 ];

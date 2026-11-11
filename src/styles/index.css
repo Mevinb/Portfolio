@@ -1,5 +1,6 @@
-/* Fonts are linked from index.html so they are discovered in the initial HTML.
-   cinematic.css is imported by CinematicLanding so it ships with that chunk. */
+/* cinematic.css is imported by CinematicLanding so it ships with that chunk. */
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
 @import './tailwind.css';
 @import './theme.css';
 

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionValue, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
-import { ArrowDown, FastForward } from 'lucide-react';
+import { ArrowDown, FastForward } from './icons';
 import { CinematicCopy } from './CinematicCopy';
 import { CinematicFallback } from './CinematicFallback';
 import { ACTS, CHROME_FADE, CINEMATIC_EXIT_MS, EXIT_END_VH, PORTAL_EXIT_VH, activeActIndex } from './cinematicTimeline';

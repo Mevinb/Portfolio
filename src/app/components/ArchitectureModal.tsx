@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Activity, Cpu, Database, Play, Server, Terminal, X, Zap } from 'lucide-react';
+import { Pulse, Cpu, Database, Play, HardDrives, TerminalWindow, X, Lightning } from './icons';
 
 export interface ArchNode { id: string; name: string; type: 'input' | 'process' | 'model' | 'storage' | 'output'; description: string; tech: string; latency?: string; vram?: string; details?: string[] }
 export interface ProjectArchitecture { projectId: string; projectTitle: string; pipelineDescription: string; nodes: ArchNode[]; connections: { from: string; to: string; label?: string }[] }
 
-const ICONS = { input: Terminal, process: Zap, model: Cpu, storage: Database, output: Server };
+const ICONS = { input: TerminalWindow, process: Lightning, model: Cpu, storage: Database, output: HardDrives };
 
 export function ArchitectureModal({ isOpen, onClose, architecture }: { isOpen: boolean; onClose: () => void; architecture?: ProjectArchitecture }) {
   const [active, setActive] = useState(0);
@@ -45,7 +45,7 @@ export function ArchitectureModal({ isOpen, onClose, architecture }: { isOpen: b
         </div>
         <div className="mt-5 grid border border-[var(--line)] bg-[var(--card)] md:grid-cols-[1fr_auto]">
           <div className="p-5 md:p-7"><div className="flex items-center gap-3"><SelectedIcon size={20} className="text-[var(--accent)]" /><div><span className="label-mono text-[var(--ink-faint)]">Selected {selected.type}</span><h3 className="font-semibold">{selected.name}</h3></div></div><p className="mt-5 max-w-2xl text-sm leading-relaxed text-[var(--ink-soft)]">{selected.description}</p></div>
-          <div className="flex min-w-56 flex-col justify-center border-t border-[var(--line)] p-5 md:border-l md:border-t-0">{selected.latency && <span className="mb-3 flex items-center gap-2 font-mono text-xs"><Activity size={14} className="text-[var(--accent)]" /> Latency {selected.latency}</span>}{selected.vram && <span className="flex items-center gap-2 font-mono text-xs"><Cpu size={14} className="text-[var(--accent)]" /> VRAM {selected.vram}</span>}<span className="label-mono mt-4 text-[var(--ink-faint)]">Runtime telemetry</span></div>
+          <div className="flex min-w-56 flex-col justify-center border-t border-[var(--line)] p-5 md:border-l md:border-t-0">{selected.latency && <span className="mb-3 flex items-center gap-2 font-mono text-xs"><Pulse size={14} className="text-[var(--accent)]" /> Latency {selected.latency}</span>}{selected.vram && <span className="flex items-center gap-2 font-mono text-xs"><Cpu size={14} className="text-[var(--accent)]" /> VRAM {selected.vram}</span>}<span className="label-mono mt-4 text-[var(--ink-faint)]">Runtime telemetry</span></div>
         </div>
       </div>
     </div>

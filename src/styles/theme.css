@@ -3,6 +3,8 @@
 
 :root {
   --font-size: 16px;
+  --sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, monospace;
   --paper: #ffffff;
   --paper-strong: #f1f3f7;
   --ink: #101216;
@@ -93,14 +95,14 @@
   --color-ring: var(--ring);
   --color-accent: var(--accent);
   --color-accent-bright: var(--accent-bright);
-  --font-sans: 'DM Sans', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
   html { font-size: var(--font-size); scroll-behavior: smooth; }
-  body { @apply bg-background text-foreground; font-family: 'DM Sans', sans-serif; }
+  body { @apply bg-background text-foreground; font-family: var(--sans); }
   h1, h2, h3, h4, p { margin: 0; }
   button, a, input, textarea { font: inherit; }
   ::selection { background: var(--accent); color: var(--accent-ink); }
@@ -108,7 +110,7 @@
 
 .nav-brand,
 .nav-link {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--sans);
   font-optical-sizing: auto;
   text-rendering: geometricPrecision;
 }
@@ -179,7 +181,7 @@
 }
 
 .label-mono {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 0.66rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;

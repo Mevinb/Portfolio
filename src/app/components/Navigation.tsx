@@ -6,7 +6,7 @@ import {
   useScroll,
   useSpring,
 } from 'motion/react';
-import { ArrowUpRight, Menu, Moon, Sun, X } from 'lucide-react';
+import { ArrowUpRight, List, Moon, Sun, X } from './icons';
 import { Link, useLocation } from 'react-router';
 import { useTheme } from '../context/ThemeContext';
 import { prefetchEvents } from '../../lib/events';
@@ -138,7 +138,7 @@ export function Navigation() {
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span key={menuOpen ? 'close' : 'open'} initial={{ opacity: 0, rotate: -30 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 30 }}>
-                {menuOpen ? <X size={18} /> : <Menu size={18} />}
+                {menuOpen ? <X size={18} /> : <List size={18} />}
               </motion.span>
             </AnimatePresence>
           </motion.button>

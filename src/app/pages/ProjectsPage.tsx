@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, Cpu, Github, Layers, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Cpu, GithubLogo, Stack, ShieldCheck } from '../components/icons';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
@@ -10,7 +10,7 @@ import { PROJECTS, PROJECT_CATEGORIES, type Project, type ProjectCategory } from
 type Category = 'All' | ProjectCategory;
 
 function CategoryIcon({ category }: { category: ProjectCategory }) {
-  return category === 'AI vision' || category === 'AI systems' ? <Cpu size={15} /> : category === 'Security' ? <ShieldCheck size={15} /> : <Layers size={15} />;
+  return category === 'AI vision' || category === 'AI systems' ? <Cpu size={15} /> : category === 'Security' ? <ShieldCheck size={15} /> : <Stack size={15} />;
 }
 
 function ProjectCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
@@ -30,7 +30,7 @@ function ProjectCard({ project, index, onOpen }: { project: Project; index: numb
       <div>
         <div className="flex items-center justify-between text-[var(--accent)]">
           <span className="label-mono flex items-center gap-2"><CategoryIcon category={project.category} /> {project.category}</span>
-          <a href={project.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} aria-label={`Open ${project.title} on GitHub`} className="border border-[var(--line)] p-2 text-[var(--ink-soft)] hover:text-[var(--accent)]"><Github size={15} /></a>
+          <a href={project.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} aria-label={`Open ${project.title} on GitHub`} className="border border-[var(--line)] p-2 text-[var(--ink-soft)] hover:text-[var(--accent)]"><GithubLogo size={15} /></a>
         </div>
         <h2 className="mt-12 text-2xl font-semibold tracking-[-0.04em] transition-colors group-hover:text-[var(--accent)]">{project.title}</h2>
         <p className="mt-2 text-sm font-medium text-[var(--accent)]">{project.tagline}</p>
@@ -77,7 +77,7 @@ export default function ProjectsPage() {
           </section>
         </main>
         <Footer />
-        <AnimatePresence>{selected && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelected(null)} className="fixed inset-0 z-[60] grid place-items-center bg-[rgba(0,0,0,0.65)] p-4"><motion.div initial={{ y: 16 }} animate={{ y: 0 }} onClick={(event) => event.stopPropagation()} className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[var(--line-strong)] bg-[var(--paper)] p-6 md:p-10"><button onClick={() => setSelected(null)} className="absolute right-5 top-5 p-2" aria-label="Close project dossier">×</button><p className="label-mono text-[var(--accent)]">{selected.category} / dossier</p><h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em]">{selected.title}</h2><p className="mt-2 text-lg text-[var(--accent)]">{selected.tagline}</p><p className="mt-8 leading-relaxed text-[var(--ink-soft)]">{selected.description}</p><div className="mt-8 flex flex-wrap gap-2">{selected.tags.map((tag) => <span key={tag} className="border border-[var(--line)] px-3 py-2 font-mono text-xs">{tag}</span>)}</div><div className="mt-10 flex flex-wrap gap-3 border-t border-[var(--line)] pt-6"><a href={selected.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--accent-ink)]">View repository <Github size={15} /></a>{selected.architecture && <button onClick={() => { setArchitecture(selected.architecture); setSelected(null); }} className="inline-flex items-center gap-2 border border-[var(--line-strong)] px-4 py-3 text-sm font-semibold">Open blueprint <Layers size={15} /></button>}</div></motion.div></motion.div>}</AnimatePresence>
+        <AnimatePresence>{selected && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelected(null)} className="fixed inset-0 z-[60] grid place-items-center bg-[rgba(0,0,0,0.65)] p-4"><motion.div initial={{ y: 16 }} animate={{ y: 0 }} onClick={(event) => event.stopPropagation()} className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[var(--line-strong)] bg-[var(--paper)] p-6 md:p-10"><button onClick={() => setSelected(null)} className="absolute right-5 top-5 p-2" aria-label="Close project dossier">×</button><p className="label-mono text-[var(--accent)]">{selected.category} / dossier</p><h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em]">{selected.title}</h2><p className="mt-2 text-lg text-[var(--accent)]">{selected.tagline}</p><p className="mt-8 leading-relaxed text-[var(--ink-soft)]">{selected.description}</p><div className="mt-8 flex flex-wrap gap-2">{selected.tags.map((tag) => <span key={tag} className="border border-[var(--line)] px-3 py-2 font-mono text-xs">{tag}</span>)}</div><div className="mt-10 flex flex-wrap gap-3 border-t border-[var(--line)] pt-6"><a href={selected.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-[var(--accent-ink)]">View repository <GithubLogo size={15} /></a>{selected.architecture && <button onClick={() => { setArchitecture(selected.architecture); setSelected(null); }} className="inline-flex items-center gap-2 border border-[var(--line-strong)] px-4 py-3 text-sm font-semibold">Open blueprint <Stack size={15} /></button>}</div></motion.div></motion.div>}</AnimatePresence>
         <ArchitectureModal isOpen={Boolean(architecture)} onClose={() => setArchitecture(undefined)} architecture={architecture} />
       </div>
     </ThemeProvider>

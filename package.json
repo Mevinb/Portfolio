@@ -10,22 +10,24 @@
     "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.6",
-    "lucide-react": "0.487.0",
-    "motion": "12.23.24",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-router": "7.13.0",
-    "three": "^0.185.1"
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/geist-mono": "5.3.0",
+    "@supabase/supabase-js": "2.119.0",
+    "@tabler/icons-react": "3.50.0",
+    "motion": "14.9.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "8.5.1",
+    "three": "0.187.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.12",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.185.4",
-    "@vitejs/plugin-react": "4.7.0",
-    "tailwindcss": "4.1.12",
-    "typescript": "^7.0.2",
-    "vite": "6.3.5"
+    "@tailwindcss/vite": "4.3.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.187.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "tailwindcss": "4.3.4",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
   }
 }

@@ -26,7 +26,7 @@ export default function App() {
             <CinematicLanding key={replayKey} onComplete={complete} />
           </Suspense>
         )}
-        <div {...(isActive ? { inert: '' } as Record<string, string> : {})} className="site-shell min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
+        <div inert={isActive} className="site-shell min-h-screen bg-[var(--paper)] text-[var(--ink)] transition-colors duration-300">
           <Navigation />
           <main id="main-content" tabIndex={-1}>
             <Hero />

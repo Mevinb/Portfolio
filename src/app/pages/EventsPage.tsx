@@ -7,11 +7,11 @@ import {
 import {
   ArrowLeft,
   ArrowUpRight,
-  Award,
-  CalendarDays,
-  FileCheck2,
+  Medal,
+  CalendarBlank,
+  SealCheck,
   MapPin,
-} from 'lucide-react';
+} from '../components/icons';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
@@ -61,7 +61,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
         ) : (
           <div className="grid h-full min-h-44 place-items-center border border-dashed border-[var(--line-strong)] bg-[var(--card)]">
             <div>
-              <Award size={28} className="text-[var(--ink-faint)]" />
+              <Medal size={28} className="text-[var(--ink-faint)]" />
             </div>
           </div>
         )}
@@ -87,7 +87,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 
         <div className="mt-7 flex flex-col gap-4 border-t border-[var(--line)] pt-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2 text-xs text-[var(--ink-faint)]">
-            <span className="flex items-center gap-2"><CalendarDays size={13} /> {formatEventDate(event.event_date)}</span>
+            <span className="flex items-center gap-2"><CalendarBlank size={13} /> {formatEventDate(event.event_date)}</span>
             {event.location && <span className="flex items-center gap-2"><MapPin size={13} /> {event.location}</span>}
           </div>
           {event.certificate_url ? (
@@ -101,7 +101,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
               <ArrowUpRight size={14} className="transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
             </a>
           ) : (
-            <span className="label-mono inline-flex w-fit items-center gap-2 text-[var(--ink-faint)]"><FileCheck2 size={13} /> Record verified</span>
+            <span className="label-mono inline-flex w-fit items-center gap-2 text-[var(--ink-faint)]"><SealCheck size={13} /> Record verified</span>
           )}
         </div>
       </div>
@@ -191,7 +191,7 @@ function EventsArchive() {
               <div className="m-5 h-3 w-20 bg-white/70" />
               <div className="mx-5 mt-12 h-px bg-white/55" />
               <div className="mx-5 mt-4 h-px w-2/3 bg-white/35" />
-              <Award className="absolute bottom-5 right-5 text-[var(--highlight)]" size={42} />
+              <Medal className="absolute bottom-5 right-5 text-[var(--highlight)]" size={42} />
             </motion.div>
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }} className="label-mono relative z-10 text-white/70">Archive status</motion.span>
             <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58, duration: 0.65, ease: [0.22, 1, 0.36, 1] }} className="relative z-10 grid grid-cols-2 gap-px border border-white/35 bg-white/35">

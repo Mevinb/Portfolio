@@ -5,15 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Discovered in the initial HTML, not behind the CSS bundle: an @import
-         chain would serialize app CSS -> font CSS -> WOFF2 on the critical path. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap"
-      rel="stylesheet"
-    />
-
     <!-- Hero portrait is the LCP element; fetch it alongside the JS bundle
          instead of waiting for React to mount and discover the <picture>. -->
     <link

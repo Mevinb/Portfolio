@@ -2,24 +2,24 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
-  Trash2,
-  Edit3,
-  Save,
+  Trash,
+  PencilSimple,
+  FloppyDisk,
   X,
   Lock,
-  Calendar,
+  CalendarBlank,
   MapPin,
   Image,
   Tag,
-  Award,
+  Medal,
   Users,
-  LogOut,
-  CheckCircle2,
-  AlertCircle,
-  ChevronDown,
-  Upload,
-  Loader2,
-} from 'lucide-react';
+  SignOut,
+  CheckCircle,
+  WarningCircle,
+  CaretDown,
+  UploadSimple,
+  CircleNotch,
+} from '../components/icons';
 import { supabase, isSupabaseConfigured, type Event } from '../../lib/supabase';
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD as string;
@@ -53,7 +53,7 @@ function Toast({ message, type }: { message: string; type: 'success' | 'error' }
           : 'bg-[#90B800]/15 border-[#90B800]/40 text-[#A8D500]'
       }`}
     >
-      {type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
+      {type === 'success' ? <CheckCircle size={16} /> : <WarningCircle size={16} />}
       {message}
     </motion.div>
   );
@@ -195,7 +195,7 @@ function EventFormModal({
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>
-                <Calendar size={10} className="inline mr-1" />
+                <CalendarBlank size={10} className="inline mr-1" />
                 Event Date *
               </label>
               <input
@@ -239,7 +239,7 @@ function EventFormModal({
                   <option key={r} value={r}>{r}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A8A492] pointer-events-none" />
+              <CaretDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A8A492] pointer-events-none" />
             </div>
           </div>
 
@@ -251,9 +251,9 @@ function EventFormModal({
             </label>
             <label className="flex min-h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#90B800]/35 bg-[#524646]/50 px-4 py-4 text-center transition-colors hover:border-[#90B800] hover:bg-[#90B800]/5">
               {uploadingImage ? (
-                <Loader2 size={20} className="animate-spin text-[#90B800]" />
+                <CircleNotch size={20} className="animate-spin text-[#90B800]" />
               ) : (
-                <Upload size={20} className="text-[#90B800]" />
+                <UploadSimple size={20} className="text-[#90B800]" />
               )}
               <span className="text-xs font-semibold text-[#FCF2E5]">
                 {uploadingImage ? 'Uploading to Supabase...' : 'Choose an image'}
@@ -286,7 +286,7 @@ function EventFormModal({
           {/* Certificate URL */}
           <div>
             <label className={labelClass}>
-              <Award size={10} className="inline mr-1" />
+              <Medal size={10} className="inline mr-1" />
               Certificate URL
             </label>
             <input
@@ -371,7 +371,7 @@ function EventFormModal({
                 </span>
               ) : (
                 <>
-                  <Save size={14} />
+                  <FloppyDisk size={14} />
                   {isEditing ? 'Save Changes' : 'Add Event'}
                 </>
               )}
@@ -409,7 +409,7 @@ function EventRow({
         />
       ) : (
         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#90B800]/10 border border-[#90B800]/20 flex items-center justify-center shrink-0">
-          <Calendar size={16} className="text-[#90B800] sm:w-[18px] sm:h-[18px]" />
+          <CalendarBlank size={16} className="text-[#90B800] sm:w-[18px] sm:h-[18px]" />
         </div>
       )}
 
@@ -422,7 +422,7 @@ function EventRow({
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] text-[#A8A492]">
           <span className="flex items-center gap-1">
-            <Calendar size={10} />
+            <CalendarBlank size={10} />
             {new Date(event.event_date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'short',
@@ -443,13 +443,13 @@ function EventRow({
           onClick={() => onEdit(event)}
           className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-[#5E5252] text-[#A8A492] hover:text-[#90B800] transition-all cursor-pointer"
         >
-          <Edit3 size={15} />
+          <PencilSimple size={15} />
         </button>
         <button
           onClick={() => onDelete(event.id)}
           className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-[#90B800]/20 text-[#A8A492] hover:text-[#90B800] transition-all cursor-pointer"
         >
-          <Trash2 size={15} />
+          <Trash size={15} />
         </button>
       </div>
     </motion.div>
@@ -496,7 +496,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
         {(!hasAdminPassword || !isSupabaseConfigured) && (
           <div className="mb-6 p-4 rounded-2xl bg-[#90B800]/10 border border-[#90B800]/30 text-xs text-[#FCF2E5] space-y-2">
             <p className="font-semibold text-[#90B800] flex items-center gap-1.5">
-              <AlertCircle size={14} /> Missing Vercel Environment Variables
+              <WarningCircle size={14} /> Missing Vercel Environment Variables
             </p>
             <p className="text-[#D9CEBB] leading-relaxed">
               On Vercel, go to <strong>Project Settings → Environment Variables</strong> and add:
@@ -530,7 +530,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
           />
           {error && (
             <p className="text-[#90B800] text-xs text-center flex items-center justify-center gap-1">
-              <AlertCircle size={12} />
+              <WarningCircle size={12} />
               {error}
             </p>
           )}
@@ -665,7 +665,7 @@ export default function AdminEvents() {
               onClick={handleLogout}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#5E5252] text-[#A8A492] hover:text-[#FCF2E5] hover:border-[#7A6B6B] text-xs transition-all cursor-pointer"
             >
-              <LogOut size={13} />
+              <SignOut size={13} />
               Logout
             </button>
           </div>
@@ -676,7 +676,7 @@ export default function AdminEvents() {
       <div className="max-w-4xl mx-auto px-6 py-10">
         {!isSupabaseConfigured && (
           <div className="mb-6 p-4 rounded-2xl bg-[#90B800]/10 border border-[#90B800]/30 text-xs text-[#FCF2E5] flex items-start gap-3">
-            <AlertCircle size={18} className="text-[#90B800] shrink-0 mt-0.5" />
+            <WarningCircle size={18} className="text-[#90B800] shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-[#90B800]">Supabase Configuration Missing</p>
               <p className="text-[#D9CEBB] mt-1">
@@ -695,7 +695,7 @@ export default function AdminEvents() {
         ) : events.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 rounded-2xl bg-[#90B800]/10 border border-[#90B800]/20 flex items-center justify-center mb-4">
-              <Calendar size={24} className="text-[#90B800]" />
+              <CalendarBlank size={24} className="text-[#90B800]" />
             </div>
             <p className="text-[#D9CEBB] font-semibold mb-1">No events yet</p>
             <p className="text-[#A8A492] text-sm mb-6">Add your first event to get started</p>

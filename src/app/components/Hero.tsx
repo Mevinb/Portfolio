@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowDownRight, ArrowUpRight, Github, MapPin } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, GithubLogo, MapPin } from './icons';
 
 const PROFILE = {
   github: 'https://github.com/Mevinb',
@@ -54,7 +54,7 @@ export function Hero() {
                 <motion.a href="#work" whileHover="hover" whileTap={{ scale: 0.97 }} className="shine-button group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--accent-ink)]">
                   <span className="relative z-10">View selected work</span><motion.span variants={{ hover: { x: 3, y: 3 } }} className="relative z-10"><ArrowDownRight size={16} /></motion.span>
                 </motion.a>
-                <motion.a href={PROFILE.github} target="_blank" rel="noreferrer" whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} className="inline-flex h-12 items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--card)] px-6 text-sm font-semibold shadow-[0_7px_20px_rgba(10,18,40,0.06)]">GitHub <Github size={16} /></motion.a>
+                <motion.a href={PROFILE.github} target="_blank" rel="noreferrer" whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} className="inline-flex h-12 items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--card)] px-6 text-sm font-semibold shadow-[0_7px_20px_rgba(10,18,40,0.06)]">GitHub <GithubLogo size={16} /></motion.a>
               </div>
             </div>
             <motion.a href={PROFILE.linkedin} target="_blank" rel="noreferrer" whileHover={{ x: 4 }} className="label-mono inline-flex items-center gap-2 text-[var(--ink-soft)] hover:text-[var(--accent)]">LinkedIn <ArrowUpRight size={14} /></motion.a>
@@ -86,7 +86,7 @@ export function Hero() {
                 alt="Mevin Benty"
                 width={706}
                 height={882}
-                {...{ fetchpriority: 'high' }}
+                fetchPriority="high"
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
               />
