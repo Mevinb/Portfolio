@@ -3,7 +3,7 @@ import { AnimatePresence, motion, MotionValue, useMotionValue, useReducedMotion,
 import { ArrowDown, FastForward } from './icons';
 import { CinematicCopy } from './CinematicCopy';
 import { CinematicFallback } from './CinematicFallback';
-import { ACTS, CHROME_FADE, CINEMATIC_EXIT_MS, EXIT_END_VH, PORTAL_EXIT_VH, activeActIndex } from './cinematicTimeline';
+import { ACTS, CHROME_FADE, CINEMATIC_EXIT_MS, EXIT_END_VH, FINALE, PORTAL_EXIT_VH, activeActIndex } from './cinematicTimeline';
 import '../../styles/cinematic.css';
 
 const CinematicScene = lazy(() => import('./CinematicScene').then((module) => ({ default: module.CinematicScene })));
@@ -67,6 +67,7 @@ export function CinematicLanding({ onComplete }: CinematicLandingProps) {
   const [exitStart] = useState(exitStartVh);
   // The overlay's furniture retires before the whitewash — see CHROME_FADE.
   const chromeOpacity = useTransform(progress, CHROME_FADE, [1, 0]);
+  const plateOpacity = useTransform(progress, FINALE.plate, [0, 1]);
 
   const leavingRef = useRef(false);
   const exitTimer = useRef(0);
@@ -177,7 +178,8 @@ export function CinematicLanding({ onComplete }: CinematicLandingProps) {
                   </Suspense>
                 )}
                 {(fallback || !ready) && <CinematicFallback />}
-                <div className="cinematic-vignette" aria-hidden="true" />
+                <motion.div className="cinematic-vignette" style={{ opacity: chromeOpacity }} aria-hidden="true" />
+                <motion.div className="cinematic-plate" style={{ opacity: plateOpacity }} aria-hidden="true" />
                 <CinematicCopy progress={progress} />
                 <motion.div className="cinematic-chrome-layer" style={{ opacity: chromeOpacity }}>
                   <div className="cinematic-chrome">

@@ -35,6 +35,7 @@
 .cinematic-canvas,
 .cinematic-fallback,
 .cinematic-copy-layer,
+.cinematic-plate,
 .cinematic-vignette {
   position: absolute;
   inset: 0;
@@ -49,6 +50,11 @@
 .cinematic-vignette {
   pointer-events: none;
   background: radial-gradient(circle at 50% 45%, transparent 28%, rgba(2, 3, 9, 0.18) 62%, rgba(2, 3, 9, 0.78) 115%);
+}
+
+.cinematic-plate {
+  pointer-events: none;
+  background: var(--paper);
 }
 
 .cinematic-copy-layer {
@@ -366,7 +372,8 @@
 @media (max-width: 760px) {
   .cinematic-track { height: 430svh; }
   .cinematic-scene-copy { justify-content: flex-end; padding: 1.5rem 1.5rem 7.5rem; }
-  .cinematic-scene-title { font-size: clamp(3.6rem, 20vw, 6.5rem); line-height: 0.82; }
+  /* Sized so the longest word, “Infrastructure”, fits a 360px screen. */
+  .cinematic-scene-title { font-size: clamp(2.6rem, 12.4vw, 6.5rem); line-height: 0.86; }
   .cinematic-scene-title strong { -webkit-text-stroke-width: 1px; }
   .cinematic-scene-copy > p { max-width: 82%; font-size: 0.9rem; }
   .cinematic-prologue { padding-inline: 1.4rem; }

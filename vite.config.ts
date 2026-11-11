@@ -38,9 +38,10 @@ export default defineConfig({
       },
     },
 
-    // The deliberately isolated Three.js chunk is a little above Vite's
-    // generic 500 kB default, but is lazy-loaded and about 136 kB over gzip.
-    // Keep a close warning budget instead of disabling the check.
-    chunkSizeWarningLimit: 550,
+    // The deliberately isolated Three.js chunk (core plus the bloom
+    // post-processing passes) is above Vite's generic 500 kB default, but is
+    // lazy-loaded and about 150 kB over gzip. Keep a close warning budget
+    // instead of disabling the check.
+    chunkSizeWarningLimit: 620,
   },
 })

@@ -26,7 +26,7 @@ export function useDossier() {
     withViewTransition(
       () => { setProject(null); if (trigger?.isConnected) trigger.style.viewTransitionName = 'dossier'; },
       undefined,
-      () => { if (trigger) trigger.style.viewTransitionName = ''; trigger?.focus({ preventScroll: true }); },
+      () => { if (trigger) trigger.style.viewTransitionName = ''; },
     );
   }, []);
 

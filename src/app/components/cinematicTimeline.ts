@@ -80,19 +80,27 @@ export const FINALE = {
    * being white-on-white in light mode.
    */
   bloom: [0.78, 0.9] as [number, number],
+  /**
+   * A DOM plate in the exact `--paper` colour closes over the canvas across
+   * this window. The scene is tone-mapped, so it can approach paper but never
+   * match it; the plate is what makes the handoff to the site seamless.
+   */
+  plate: [0.83, 0.9] as [number, number],
   enter: 0.925,
   settled: 0.985,
 };
 
 /**
- * Camera choreography. Each key is a deliberate pose — approach the core arcing
- * left so the node shell parallaxes against the wireframe, settle off-axis in
- * the security corridor so the frames read as a receding tunnel rather than
- * concentric squares, descend between the rack rows, then hold at the threshold
- * of the portal so the exit wipe can continue out of it.
+ * Camera choreography. The scene flies one spline through these keys, so each
+ * is a pose the path passes through rather than a stop: approach the eye
+ * arcing left as it resolves, cut across its face as it scatters, enter the
+ * vault corridor, swing wide around the guarded core, descend between the rack
+ * rows, then hold at the threshold of the portal so the exit wipe can continue
+ * out of it.
  *
- * Scene-space landmarks: core group z=0, security z=-18 (frames to ~-39),
- * deploy z=-43 (racks recede past -95), portal ring z=-75 radius 5.5.
+ * Scene-space landmarks: eye at the origin (radius 2.3), security z=-18 (gates
+ * to ~-39, guarded core at z=-28, radius ~2), deploy z=-43 (racks recede past
+ * -95), portal ring z=-75 radius 5.5.
  */
 export interface CameraKey {
   at: number;
@@ -101,21 +109,37 @@ export interface CameraKey {
 }
 
 export const CAMERA_KEYS: CameraKey[] = [
-  // Opens craned up and pushed back, looking above the core, so the sculpture
+  // Opens craned up and pushed back, looking above the cloud, so the sculpture
   // sits in the lower third and the title card has a clean field to land in.
   { at: 0.0, pos: [0, 1, 21], look: [0, 5.2, 0] },
-  { at: 0.13, pos: [-2.4, 0.8, 6.4], look: [0.2, -0.1, -1] },
-  { at: 0.25, pos: [2.2, -0.6, 2.2], look: [-0.4, 0.2, -6] },
+  { at: 0.13, pos: [-2.6, 0.9, 8.2], look: [0.2, 0, 0] },
+  { at: 0.25, pos: [3.6, -0.5, 5.4], look: [-0.4, 0.1, -3] },
   // Close enough to the corridor that act two's copy arrives on a full frame
   // rather than on a small shape in the middle distance.
-  { at: 0.36, pos: [0.5, 0.2, -10.5], look: [0.1, 0, -18] },
-  { at: 0.46, pos: [1.7, 0.9, -20], look: [-0.7, -0.35, -32] },
-  { at: 0.585, pos: [-1.4, 0.5, -32], look: [0.5, 0.1, -44] },
+  { at: 0.36, pos: [-0.4, 0.2, -10.5], look: [0.3, 0, -18] },
+  // Wide of the guarded core on the way past (it is solid, not a wireframe),
+  // and to its left, so it sits on the side of the frame the copy leaves free.
+  { at: 0.46, pos: [-2.3, 0.9, -21.5], look: [0.7, -0.1, -28] },
+  { at: 0.53, pos: [-2.7, 0.4, -28.5], look: [1.4, 0, -38] },
+  { at: 0.585, pos: [0.6, 0.5, -34], look: [-0.3, 0.1, -44] },
   { at: 0.69, pos: [0.2, 1.7, -46], look: [0, -0.6, -60] },
   { at: 0.8, pos: [-0.3, 0.6, -56], look: [0.1, -0.1, -70] },
   { at: 0.9, pos: [0, 0.15, -61], look: [0, 0, -76] },
+  { at: 0.96, pos: [0, 0.04, -62.8], look: [0, 0, -77.4] },
   { at: 1.0, pos: [0, 0, -63.5], look: [0, 0, -78] },
 ];
+
+/**
+ * Act one's sculpture: latent noise settles into the eye over `form`, then
+ * scatters past the camera over `scatter` as the corridor takes over.
+ */
+export const RESOLVE = {
+  form: [0.015, 0.2] as [number, number],
+  scatter: [0.235, 0.37] as [number, number],
+};
+
+/** The corridor's gates swing square one after another across this window. */
+export const GATE_UNLOCK = [0.33, 0.56] as [number, number];
 
 /**
  * The overlay's own furniture — brand, skip, rail, scroll cue — retreats before
@@ -148,7 +172,7 @@ export interface GroupWindow {
 }
 
 export const GROUP_WINDOWS: Record<'core' | 'security' | 'deploy', GroupWindow> = {
-  core: { in: [-0.01, 0], out: [0.25, 0.35] },
+  core: { in: [-0.01, 0], out: [0.3, 0.385] },
   security: { in: [0.27, 0.37], out: [0.55, 0.64] },
   deploy: { in: [0.57, 0.66], out: [1.01, 1.02] },
 };
