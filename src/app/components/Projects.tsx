@@ -24,7 +24,7 @@ export function Projects() {
           <div className="flex flex-col justify-between gap-10 border-b border-[var(--line)] p-6 md:p-10 lg:border-b-0 lg:border-r">
             <div>
               <p className="label-mono flex items-center gap-3 text-[var(--accent)]"><span className="h-2 w-2 bg-[var(--signal)]" aria-hidden="true" />Lead dossier / {LEAD.category}</p>
-              <h3 className="mt-8 text-5xl font-semibold leading-[0.95] tracking-[-0.055em] md:text-7xl">{LEAD.title}</h3>
+              <h3 className="mt-8 text-5xl font-semibold leading-[0.95] tracking-[-0.055em] md:text-7xl"><a href={`/projects#${LEAD.id}`} className="transition-colors hover:text-[var(--accent)]">{LEAD.title}</a></h3>
               <p className="mt-3 text-lg font-medium text-[var(--accent)]">{LEAD.tagline}</p>
               <p className="mt-6 max-w-[46ch] leading-relaxed text-[var(--ink-soft)]">{LEAD.description}</p>
             </div>
@@ -42,8 +42,18 @@ export function Projects() {
               <span className="font-mono text-xs text-[var(--ink-faint)]">{String(index + 2).padStart(2, '0')}</span>
               <div>
                 <h3 className="text-2xl font-semibold tracking-[-0.04em] md:text-3xl">
-                  {/* Stretched over the row, so the whole line opens the dossier. */}
-                  <button type="button" onClick={(event) => dossier.open(project, event.currentTarget.closest('li')!)} className="text-left transition-colors after:absolute after:inset-0 group-hover:text-[var(--accent)]">{project.title}</button>
+                  {/* A real link to the archive entry, so crawlers and no-JS visitors can
+                      follow it; a plain click opens the dossier in place instead.
+                      Stretched over the row, so the whole line is the target. */}
+                  <a
+                    href={`/projects#${project.id}`}
+                    onClick={(event) => {
+                      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                      event.preventDefault();
+                      dossier.open(project, event.currentTarget.closest('li')!);
+                    }}
+                    className="transition-colors after:absolute after:inset-0 group-hover:text-[var(--accent)]"
+                  >{project.title}</a>
                 </h3>
                 <p className="label-mono mt-2 text-[var(--ink-faint)]">{project.category}</p>
               </div>
